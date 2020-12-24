@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Cart
+{% endblock %}
+
+{% block main %}
+<table style="width:100%">
+    <th></th>
+    <th></th>
+    <th> </th>
+    <th></th>
+    <th></th>
+    <th></th>
+    {% for row in item %}
+      <tr class="cart_row">
+        <td> <form action="/cart/clear/{{ row['id'] }}", method="post"> <button name="clear" class="clear_item" value="{{ row['id'] }}">X</button></form></td>
+        <td> <img src="static/img/{{ row['id'] }}.jpg" alt="" class="cart_image" widht=50 height=150> </td>
+        <td> {{ row["name"] }} </td>
+        <td> {{ row["price"] }} </td>
+        <td>
+        <div class="quantity_selector">
+          <form class = "button_quantity_selector" id="update_table" action="/cart/push/{{ row['id'] }}", method="post">
+            <button class="push_button" autocomplete="off" name="push" type="tel" value='-'><strong>-</strong></button>
+          </form>
+          <form class="button_quantity_selector" id="{{ row['name'] }}" action="/cart/input/{{ row['id'] }}", method="post">
+            <input onchange="change_value('{{ row.name }}')" class="input_quantity_selector" autocomplete="off" name="input_qtd" type="tel" value="{{ row['quantity'] }}"  maxlength=2 minlength=1>
+          </form>
+          <form class="button_quantity_selector" id="update_table" action="/cart/push/{{ row['id'] }}", method="post">
+            <button class="push_button" autocomplete="off" name="push" type="tel" value='+'>+</button>
+          </form>
+        </div>
+        </td>
+        <td><strong>{{ row["total_product"] }}</strong></td>
+      </tr>
+    {% endfor %}
+    <tr class="total_row">
+      <td colspan="4"> <form class="display_button" action="/cart/empty/1", method="post"><button name="empty_cart" type="submit" id="empty" class="empty_button"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-cart-x" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+        <path fill-rule="evenodd" d="M6.646 5.646a.5.5 0 0 1 .708 0L8.5 6.793l1.146-1.147a.5.5 0 0 1 .708.708L9.207 7.5l1.147 1.146a.5.5 0 0 1-.708.708L8.5 8.207 7.354 9.354a.5.5 0 1 1-.708-.708L7.793 7.5 6.646 6.354a.5.5 0 0 1 0-.708z"/>
+      </svg></button></form></td>
+      <td style="text-align: right" class="total_row_title">Total: </td>
+    <td class="total_amount"> <strong> {{total}} </strong></td>
+    </tr>
+
+<tr>
+<td colspan="5"></td>
+<td>
+  <form action="/cart", method="post">
+<button class="check_button" id="checkout-button">Checkout</button></form>
+ </td>
+</tr>
+</table>
+<script>
+    function change_value(id){
+    document.getElementById(id).submit();
+    }
+</script>
+
+{% endblock %}

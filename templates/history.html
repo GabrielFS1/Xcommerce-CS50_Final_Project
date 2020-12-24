@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+{% for i in rows %}
+<div class="purshace_card">
+    <div>
+       <span style="float: left; margin: 10px">#{{ i }}</span>
+    {% for total in totals %}
+    {% if i in total  %}
+        <span style="float: right; margin: 10px;"><strong>Total: </strong><span class="hist_total_item">{{ total[i]["buy_total"] }}</span></span>
+        <span style="float: right; margin: 10px 20px 0px 10px;">{{ total[i]["time"] }}</span>
+    {% endif %}
+{% endfor %}
+    </div>
+    <div>
+        <table style="width: 100%;">
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Subtotals</th>
+            {% for item in list_of_buys %}
+                {% if i in item  %}
+                <tr>
+                <td><span class="product_name">{{ item[i]["name"] }}</span></td>
+                <td><span class="hist_data">{{ item[i]["quantity"] }}</span></td>
+                <td></span><span class="hist_data">{{ item[i]["unit_price"] }}</span></td>
+                <td><span class="hist_product_total">{{ item[i]["total"] }}</span></td>
+            </tr>
+                {% endif %}
+        {% endfor %}
+    </table>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
